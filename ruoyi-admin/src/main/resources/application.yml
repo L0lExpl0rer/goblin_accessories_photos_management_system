@@ -1,91 +1,214 @@
 ruoyi:
-  name: Zachary Jun
-  version: 3.9.0
+  # Project display name.
+  # Shown in the UI, login page, system info, etc.
+  name: GOBLIN
+
+  # Project version number.
+  # Used for display only, does not affect logic.
+  version: 1.0.0
+
+  # Copyright year.
+  # Displayed in the footer or About page.
   copyrightYear: 2025
+
+  # File upload root directory.
+  # All uploaded files (avatars, documents, attachments) will be stored under this base path.
+  # Windows => D:/goblin/uploadPath
+  # Linux => /home/goblin/uploadPath
   profile: D:/ruoyi/uploadPath
+
+  # Address resolution switch.
+  # If true: the system may try to resolve IP addresses into regions or cities
+  # (e.g., for login logs, operation logs).
+  # If false: IP-to-region lookup is disabled, which can reduce external calls
+  # or data file dependencies.
   addressEnabled: false
+
+  # Captcha type for login.
+  # Common values: "math" (arithmetic captcha), "char" (random characters).
+  # This helps prevent brute-force login attacks.
   captchaType: math
+
+  # Author name or maintainer of this project.
+  # Display-only, for credits.
+  author: Zachary Jun
 
 
 server:
+  # HTTP port that the application will listen on.
+  # Keep this port unique on the machine to avoid conflicts.
+  # In production, this may be different or behind a reverse proxy (Nginx).
   port: 16666
+
   servlet:
+    # Root context path of the application.
+    # "/" means the application is served at the root, e.g., http://localhost:16666/
+    # If set to "/goblin", it would be http://localhost:16666/goblin/.
     context-path: /
+
   tomcat:
+    # Default URI encoding for incoming requests.
+    # UTF-8 supports most languages and is the safe default.
     uri-encoding: UTF-8
+
+    # Maximum number of queued incoming connections
+    # when all Tomcat request processing threads are busy.
+    # Additional requests beyond this limit may be rejected.
     accept-count: 1000
+
     threads:
+      # Maximum number of request processing threads.
+      # Higher values support more concurrent requests but use more resources.
       max: 800
+
+      # Minimum number of threads that will always be kept alive in the pool.
+      # Helps handle bursts of traffic more smoothly.
       min-spare: 100
 
 
+# Log Configuration:
+# Log Levels: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL
+# Allows you to focus on critical info without being overwhelmed.
 logging:
   level:
+    # Log level for your project/business code.
     com.ruoyi: debug
+
+    # Log level for Spring framework internal logs.
     org.springframework: warn
 
 
+# User Configuration:
 user:
   password:
+    # Maximum allowed failed login attempts before the account is locked.
+    # After exceeding this number, the user must wait for lockTime minutes.
     maxRetryCount: 5
+
+    # Lock duration (in minutes) when maxRetryCount is exceeded.
+    # During this time, the user cannot log in even with the correct password.
     lockTime: 10
 
 
+# Spring Configuration:
 spring:
   messages:
+    # Base name (path) for internationalization resource bundles.
+    # Files like: i18n/messages.properties, messages_zh_CN.properties, etc.
+    # Used to provide multi-language messages in the UI and validation.
     basename: i18n/messages
+
   profiles:
-    active: druid
+    # Active profile name.
+    # This tells Spring to also load application-dev.yml.
+    # You can switch to "prod" or "test" for different environments.
+    active: dev
+
   servlet:
     multipart:
+      # Maximum size for a single uploaded file.
+      # Protects the server from very large file uploads.
       max-file-size: 10MB
+
+      # Maximum size for the entire multipart request.
+      # Includes all files and form fields in the request.
       max-request-size: 20MB
+
   devtools:
     restart:
+      # Enable automatic restart in development when code or configuration changes.
+      # This should be enabled only in dev, not in production.
       enabled: true
-  redis:
-    host: localhost
-    port: 6379
-    database: 0
-    password: 123456
-    timeout: 10s
-    lettuce:
-      pool:
-        min-idle: 0
-        max-idle: 8
-        max-active: 8
-        max-wait: -1ms
 
 
+# JWT - JSON Web Token Configuration:
 token:
+  # HTTP header name used to carry the authentication token.
+  # Example: Authorization: Bearer <token>
   header: Authorization
-  secret: abcdefghijklmnopqrstuvwxyz
-  expireTime: 30
+
+  # Secret key used to sign and verify tokens.
+  # PLEASE USE A COMPLEX KEY AND DO NOT LEAK IT! Once leaked, attackers can forge tokens.
+  # Changing this secret will invalidate all existing tokens.
+  secret: u8y$R(3aPz9e!t#xVbL1Qk^N0oM6jG
+
+  # Token expiration time (in minutes).
+  # After this time, the client must request a new token.
+  expireTime: 180
 
 
+# MyBatis Configuration:
 mybatis:
+  # Package patterns to scan for domain model classes.
+  # These classes can be used as type aliases in mapper XML files.
   typeAliasesPackage: com.ruoyi.**.domain
+
+  # Locations where MyBatis searches for mapper XML files.
+  # "classpath*:" allows scanning across multiple JARs and directories.
   mapperLocations: classpath*:mapper/**/*Mapper.xml
+
+  # Global MyBatis configuration file.
+  # Contains settings such as mapUnderscoreToCamelCase, cache, etc.
   configLocation: classpath:mybatis/mybatis-config.xml
 
 
+# PageHelper pagination plugin:
 pagehelper:
+  # Database dialect used by PageHelper.
+  # Must match your actual database type (mysql, oracle, etc.).
   helperDialect: mysql
+
+  # Allow paging parameters to be used as method arguments.
+  # This enables automatic parsing of pageNum, pageSize, etc.
   supportMethodsArguments: true
+
+  # Additional configuration parameters.
+  # "count=countSql" means it will generate a count(*) query to compute
+  # the total number of records for paginated queries.
   params: count=countSql
 
 
+# Swagger Configuration:
 swagger:
+  # Global switch to enable or disable Swagger.
+  # true: Swagger UI and docs are available.
+  # false: Swagger endpoints are not exposed.
   enabled: true
+
+  # Base path mapping for Swagger endpoints.
+  # Helpful when the real API is behind a reverse proxy or a prefixed path.
   pathMapping: /dev-api
 
 
 referer:
+  # Global switch for referer checking.
+  # true: Only requests from allowed domains are trusted.
+  # false: Referer header is not validated.
   enabled: false
-  allowed-domains: localhost,127.0.0.1,ruoyi.vip,www.ruoyi.vip
+
+  # Comma-separated whitelist of allowed domains.
+  # Requests with a Referer host matching one of these domains are accepted.
+  allowed-domains: localhost,127.0.0.1
 
 
+# XSS Configuration:
+# Prevent Cross-Site Scripting (XSS) attacks.
+# XSS: Inject malicious scripts into web pages -> Stealing cookies, redirecting users, defacing websites.
 xss:
+  # Global XSS protection switch.
+  # true: Requests are inspected and malicious scripts are filtered out.
+  # false: XSS filtering is disabled (not recommended for public environments).
   enabled: true
+
+  # Excluding paths -> Which URLs should NOT be processed by the XSS filter?
+  # For example:
+  # - Some modules may already handle HTML safely.
+  # - Some rich text fields may allow HTML content by design.
+  # Multiple paths can be separated with ",".
   excludes: /system/notice
+
+  # Including paths -> Which URLs SHOULD be processed by the XSS filter?
+  # Typically, include sensitive modules like system, monitoring, tools, etc.
+  # Requests matching these patterns will be checked and sanitized.
+  # Multiple paths can be separated with ",".
   urlPatterns: /system/*,/monitor/*,/tool/*

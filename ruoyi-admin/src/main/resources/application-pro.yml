@@ -1,0 +1,135 @@
+spring:
+  datasource:
+
+    # Specifies which connection pool implementation to use.
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    # JDBC driver class for MySQL.
+    # Make sure the corresponding driver dependency is included in pom.xml.
+    driverClassName: com.mysql.cj.jdbc.Driver
+
+    druid:
+
+      # Master DataSource Configuration
+      master:
+        url: jdbc:mysql://localhost:3306/goblin?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: root
+        password: 123456
+
+      # Slave DataSource Configuration (Optional)
+      slave:
+        enabled: false
+        url:
+        username:
+        password:
+
+      # How many database connections does Druid need to create immediately after the project starts?
+      # To avoid connection delays during cold starts.
+      initialSize: 5
+
+      # How many idle connections does the system need to maintain at least?
+      # To prevent insufficient connections during peak requests.
+      minIdle: 10
+
+      # How many database connections does the system support at the same time?
+      # The remaining connection requests will be queued.
+      maxActive: 20
+
+      # How long will the remaining connection requests be queued for at most? (Milliseconds)
+      # For example: if all 20 connections are in use, the 21st request will wait at most 60 seconds.
+      # If no connection is available after the timeout, an error will be reported.
+      maxWait: 60000
+
+      # Maximum waiting time when connecting to the database. (Milliseconds)
+      connectTimeout: 30000
+
+      # Maximum waiting time when reading and writing data. (Milliseconds)
+      socketTimeout: 60000
+
+      # How long does it take to perform a round of idle connection cleanup? (Milliseconds)
+      # The idle connections will be killed during each detection.
+      timeBetweenEvictionRunsMillis: 60000
+
+      # How long does a connection to be claimed as idle connection at least? (Milliseconds)
+      minEvictableIdleTimeMillis: 300000
+
+      # Connections that are connected for longer than this time will be killed immediately. (Milliseconds)
+      maxEvictableIdleTimeMillis: 900000
+
+      # Druid uses this SQL to check whether the connection is still alive.
+      # "SELECT 1 FROM DUAL" is a generic Oracle/MySQL connection check statement.
+      validationQuery: SELECT 1 FROM DUAL
+
+      # Checking connection validity during idle time.
+      testWhileIdle: true
+
+      # No detection when removing the connection.
+      testOnBorrow: false
+
+      # No detection when returning the connection.
+      testOnReturn: false
+
+      # Whether to allow Druid to collect some necessary data?
+      webStatFilter:
+        enabled: true
+
+      # Whether to enable the web console UI provided by Druid.
+      # Address: http://localhost:16666/druid/index.html
+      statViewServlet:
+        enabled: true
+
+        # Which IPs can access the Druid console?
+        # Empty value means any IP can access (DANGEROUS!)
+        allow: 127.0.0.1
+        url-pattern: /druid/*
+
+        # Druid console username
+        login-username: goblin
+
+        # Druid console password
+        login-password: goblin
+
+      filter:
+        stat:
+          enabled: true
+
+          # Print SQL statements whose execution time exceeds the set threshold.
+          log-slow-sql: true
+
+          # SQL statements that take longer than a certain number of seconds to execute are considered slow SQL statements.
+          slow-sql-millis: 1000
+
+          # Combine similar SQL statements into one log record to improve statistical readability.
+          # SELECT * FROM user WHERE id = 1 + SELECT * FROM user WHERE id = 2 => SELECT * FROM user WHERE id = ?
+          merge-sql: true
+
+        # SQL Firewall Configuration:
+        wall:
+          config:
+            # Druid firewall does not allow multiple statements to be executed at the same time.
+            # To prevent SQL injection (RECOMMENDED: false)
+            multi-statement-allow: true
+
+  # redis Configuration:
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    password: 123456
+    connect-timeout: 10s
+
+    lettuce:
+      pool:
+
+        # Minimum number of idle connections in the connection pool.
+        min-idle: 0
+
+        # Maximum number of idle connections in the connection pool.
+        max-idle: 8
+
+        # Maximum number of concurrent connections in the connection pool.
+        max-active: 8
+
+        # Maximum waiting time in the connection pool.
+        # Negative number (-1ms) means infinite waiting.
+        max-wait: -1ms
