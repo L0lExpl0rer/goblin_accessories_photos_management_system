@@ -38,12 +38,12 @@ server:
   # HTTP port that the application will listen on.
   # Keep this port unique on the machine to avoid conflicts.
   # In production, this may be different or behind a reverse proxy (Nginx).
-  port: 16666
+  port: 22222
 
   servlet:
     # Root context path of the application.
-    # "/" means the application is served at the root, e.g., http://localhost:16666/
-    # If set to "/goblin", it would be http://localhost:16666/goblin/.
+    # "/" means the application is served at the root, e.g., http://localhost:22222/
+    # If set to "/goblin", it would be http://localhost:22222/goblin/.
     context-path: /
 
   tomcat:

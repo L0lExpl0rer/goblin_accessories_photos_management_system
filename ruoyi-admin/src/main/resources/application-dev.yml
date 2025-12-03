@@ -74,7 +74,7 @@ spring:
         enabled: true
 
       # Whether to enable the web console UI provided by Druid.
-      # Address: http://localhost:16666/druid/index.html
+      # Address: http://localhost:22222/druid/index.html
       statViewServlet:
         enabled: true
 
