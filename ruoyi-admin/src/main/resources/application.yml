@@ -15,7 +15,7 @@ ruoyi:
   # All uploaded files (avatars, documents, attachments) will be stored under this base path.
   # Windows => D:/goblin/uploadPath
   # Linux => /home/goblin/uploadPath
-  profile: D:/ruoyi/uploadPath
+  profile: /home/goblin/uploadPath
 
   # Address resolution switch.
   # If true: the system may try to resolve IP addresses into regions or cities

@@ -2,6 +2,7 @@
                      Application Version: ${ruoyi.version}
                      Powered by Spring Boot: ${spring-boot.version}
                           Author: ${ruoyi.author}
+                        Copyright Year: ${ruoyi.copyrightYear}
 ////////////////////////////////////////////////////////////////////
 //                                                                //
 //                ███████╗ █████╗  ██████╗██╗   ██╗               //
