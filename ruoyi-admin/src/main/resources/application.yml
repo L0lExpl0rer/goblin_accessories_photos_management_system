@@ -137,8 +137,8 @@ token:
   expireTime: 180
 
 
-# MyBatis Configuration:
-mybatis:
+# MyBatis Plus Configuration:
+mybatis-plus:
   # Package patterns to scan for domain model classes.
   # These classes can be used as type aliases in mapper XML files.
   typeAliasesPackage: com.ruoyi.**.domain
