@@ -180,6 +180,28 @@ swagger:
   pathMapping: /dev-api
 
 
+# Knife4J Configuration:
+knife4j:
+  # Enable Knife4J UI enhancement features.
+  # Provide an enhanced UI (doc.html) on top of Springfox/Swagger.
+  enable: true
+
+  # Production shielding switch.
+  # Typically used to hide/disable the documentation UI in production environments.
+  # Many projects set production: true in prod to prevent exposing API docs publicly.
+  production: false
+
+  basic:
+    # Enable Basic Auth protection for the documentation page.
+    enable: true
+    username: knife4j
+    password: knife4j
+
+  setting:
+    # Rename the "Swagger Models" section title shown in the Knife4J UI.
+    swagger-model-name: Entity Model List
+
+
 referer:
   # Global switch for referer checking.
   # true: Only requests from allowed domains are trusted.
